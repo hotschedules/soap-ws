@@ -167,8 +167,12 @@ public final class SoapClient {
             StatusLine statusLine = response.getStatusLine();
             HttpEntity entity = response.getEntity();
             if (statusLine.getStatusCode() >= 300) {
-                EntityUtils.consume(entity);
-                throw new TransmissionException(statusLine.getReasonPhrase(), statusLine.getStatusCode());
+                StringBuilder buf = new StringBuilder(String.valueOf(statusLine.getStatusCode()));
+                if (statusLine.getReasonPhrase() != null) buf.append(" ["+statusLine.getReasonPhrase()+"]");
+                if (entity != null) buf.append("\n" + EntityUtils.toString(entity));
+                // EntityUtils.consume(entity);
+                // throw new TransmissionException(statusLine.getReasonPhrase(), statusLine.getStatusCode());
+                throw new TransmissionException(buf.toString());
             }
             return entity == null ? null : EntityUtils.toString(entity);
         } catch (SoapException ex) {
