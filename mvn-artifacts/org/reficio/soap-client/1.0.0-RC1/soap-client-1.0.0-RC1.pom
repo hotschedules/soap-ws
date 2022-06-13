@@ -1,47 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.reficio</groupId>
-    <artifactId>quickstart</artifactId>
-    <packaging>jar</packaging>
-    <name>soap-examples - quickstart</name>
+    <artifactId>soap-client</artifactId>
+    <packaging>bundle</packaging>
+    <name>soap-client - XML based SOAP client</name>
 
     <parent>
         <groupId>org.reficio</groupId>
-        <artifactId>soap-examples</artifactId>
+        <artifactId>soap-ws</artifactId>
         <version>1.0.0-RC1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.reficio</groupId>
             <artifactId>soap-builder</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reficio</groupId>
-            <artifactId>soap-test</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reficio</groupId>
-            <artifactId>soap-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reficio</groupId>
-            <artifactId>soap-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.guava-osgi</groupId>
-            <artifactId>guava-osgi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -49,19 +34,26 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.guava-osgi</groupId>
+            <artifactId>guava-osgi</artifactId>
         </dependency>
     </dependencies>
-
-    <properties>
-        <spring.version>3.1.2.RELEASE</spring.version>
-    </properties>
 
     <build>
         <plugins>
