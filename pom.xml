@@ -302,6 +302,7 @@
                 </executions>
                 <configuration>
                     <quiet>true</quiet>
+                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
             </plugin>
             <plugin>
@@ -369,6 +370,7 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
+
         </plugins>
 
         <extensions>
@@ -538,6 +540,32 @@
         </profile>
 
     </profiles>
+
+    <!-- ======================= -->
+    <!-- REPORTING - VERSIONNING -->
+    <!-- http://mojo.codehaus.org/versions-maven-plugin/usage.html -->
+    <!-- mvn -N versions:update-child-modules -->
+    <!-- mvn versions:commit -->
+    <!-- ======================= -->
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.11.0</version>
+                <inherited>false</inherited>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <distributionManagement>
         <repository>
