@@ -88,12 +88,12 @@ In order to use soap-ws in your project you have to declare soap-ws in the depen
         </dependency>
     </dependencies>
 ```
-soap-ws is not yet located in the central maven repo, thus you also have to add an additional repository to your config.
+soap-ws is not yet located in the central maven repo, thus you also have to add an additional repository to your config. for this fork 
 ```xml
     <repositories>
         <repository>
             <id>reficio</id>
-            <url>http://repo.reficio.org/maven/</url>
+            <url>https://github.com/hotschedules/soap-ws/tree/master/mvn-artifacts/</url>
         </repository>
     </repositories>
 ```
