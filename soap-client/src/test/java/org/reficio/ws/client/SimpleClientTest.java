@@ -18,6 +18,7 @@
  */
 package org.reficio.ws.client;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.hamcrest.core.AnyOf;
 import org.hamcrest.core.StringContains;
 import org.junit.Ignore;
@@ -25,6 +26,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.reficio.ws.client.core.SoapClient;
+
+import java.io.IOException;
 
 /**
  * @author Tom Bujok
@@ -37,7 +40,7 @@ public class SimpleClientTest {
 
     @Ignore
     @Test(timeout = 10000)
-    public void connectTimeout() {
+    public void connectTimeout() throws ConnectTimeoutException, IOException, TransmissionException {
         exception.expect(TransmissionException.class);
         exception.expectMessage(AnyOf.anyOf(
                 StringContains.containsString("failed"),
