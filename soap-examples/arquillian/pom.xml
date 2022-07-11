@@ -12,7 +12,7 @@
     <parent>
         <artifactId>soap-examples</artifactId>
         <groupId>org.reficio</groupId>
-        <version>1.1.1-RC1</version>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
