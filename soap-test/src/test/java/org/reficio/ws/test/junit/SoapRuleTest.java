@@ -18,6 +18,7 @@
  */
 package org.reficio.ws.test.junit;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.log4j.Logger;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -25,8 +26,11 @@ import org.junit.Test;
 import org.reficio.ws.builder.SoapBuilder;
 import org.reficio.ws.builder.SoapOperation;
 import org.reficio.ws.builder.core.Wsdl;
+import org.reficio.ws.client.TransmissionException;
 import org.reficio.ws.client.core.SoapClient;
 import org.reficio.ws.common.ResourceUtils;
+
+import java.io.IOException;
 
 // @Server annotation spawns an instance of a SoapServer for the lifespan of the test / method.
 // The SOAP server provides a SOAP auto-responder for the specified binding -> messages are generated and send automatically.
@@ -51,7 +55,7 @@ public class SoapRuleTest {
 
     @Test
     @Server(wsdl = "classpath:wsdl/currency-convertor.wsdl", binding = "CurrencyConvertorSoap", port = 41414)
-    public void testSoapMock_perMethodServer() {
+    public void testSoapMock_perMethodServer() throws ConnectTimeoutException, IOException, TransmissionException {
         SoapClient client = SoapClient.builder().endpointUri("http://localhost:41414/service").build();
         SoapBuilder builder = Wsdl.parse(WSDL).binding().localPart("CurrencyConvertorSoap").find();
         SoapOperation operation = builder.operation().name("ConversionRate").find();
@@ -65,7 +69,7 @@ public class SoapRuleTest {
     }
 
     @Test
-    public void testSoapMock_perClassServer() {
+    public void testSoapMock_perClassServer() throws ConnectTimeoutException, IOException, TransmissionException {
         SoapClient client = SoapClient.builder().endpointUri("http://localhost:51515/service").build();
         SoapBuilder builder = Wsdl.parse(WSDL).binding().localPart("CurrencyConvertorSoap").find();
         SoapOperation operation = builder.operation().name("ConversionRate").find();

@@ -99,7 +99,7 @@ public final class SoapClient {
      * @param requestEnvelope SOAP message envelope
      * @return The result returned by the SOAP server
      */
-    public String post(String requestEnvelope) {
+    public String post(String requestEnvelope) throws ConnectTimeoutException, IOException, TransmissionException {
         return post(NULL_SOAP_ACTION, requestEnvelope);
     }
 
@@ -110,7 +110,7 @@ public final class SoapClient {
      * @param requestEnvelope SOAP message envelope
      * @return The result returned by the SOAP server
      */
-    public String post(String soapAction, String requestEnvelope) {
+    public String post(String soapAction, String requestEnvelope) throws ConnectTimeoutException, IOException, TransmissionException {
         log.debug(String.format("Sending request to host=[%s] action=[%s] request:%n%s", endpointUri.toString(),
                 soapAction, requestEnvelope));
         String response = transmit(soapAction, requestEnvelope);
@@ -156,34 +156,28 @@ public final class SoapClient {
         }
     }
 
-    private String transmit(String soapAction, String data) {
+    private String transmit(String soapAction, String data) throws ConnectTimeoutException, IOException, TransmissionException {
         HttpPost post = generatePost(soapAction, data);
         return executePost(post);
     }
 
-    private String executePost(HttpPost post) {
+    private String executePost(HttpPost post) throws ConnectTimeoutException, IOException, TransmissionException {
         try {
             HttpResponse response = client.execute(post);
             StatusLine statusLine = response.getStatusLine();
             HttpEntity entity = response.getEntity();
             if (statusLine.getStatusCode() >= 300) {
-                StringBuilder buf = new StringBuilder(String.valueOf(statusLine.getStatusCode()));
-                if (statusLine.getReasonPhrase() != null) buf.append(" ["+statusLine.getReasonPhrase()+"]");
-                if (entity != null) buf.append("\n" + EntityUtils.toString(entity));
-                // EntityUtils.consume(entity);
-                // throw new TransmissionException(statusLine.getReasonPhrase(), statusLine.getStatusCode());
-                throw new TransmissionException(buf.toString());
+                StringBuilder buf = new StringBuilder();
+                if (entity != null) buf.append(EntityUtils.toString(entity));
+                if (entity == null) buf.append(" ["+statusLine.getReasonPhrase()+"]");
+                throw new TransmissionException(buf.toString(), statusLine.getStatusCode());
             }
             return entity == null ? null : EntityUtils.toString(entity);
         } catch (SoapException ex) {
-            throw ex;
-        } catch (ConnectTimeoutException ex) {
-            throw new TransmissionException("Connection timed out", ex);
-        } catch (IOException ex) {
-            throw new TransmissionException("Transmission failed", ex);
+            throw new TransmissionException(ex.getMessage(), 400);
         } catch (RuntimeException ex) {
             post.abort();
-            throw new TransmissionException("Transmission aborted", ex);
+            throw ex;
         }
     }
 

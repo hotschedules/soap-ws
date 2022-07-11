@@ -20,11 +20,13 @@ package org.reficio.ws.it;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.reficio.ws.SoapContext;
 import org.reficio.ws.builder.SoapBuilder;
 import org.reficio.ws.builder.SoapOperation;
 import org.reficio.ws.builder.core.SoapUtils;
 import org.reficio.ws.builder.core.Wsdl;
+import org.reficio.ws.client.TransmissionException;
 import org.reficio.ws.client.core.SoapClient;
 import org.reficio.ws.common.ResourceUtils;
 import org.reficio.ws.common.XmlUtils;
@@ -37,6 +39,7 @@ import javax.wsdl.BindingOperation;
 import javax.wsdl.OperationType;
 import javax.wsdl.WSDLException;
 import javax.xml.namespace.QName;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.KeyStore;
@@ -156,11 +159,11 @@ public abstract class AbstractCooperationTest {
         return String.format("%s:%s%s", HOST_URL, HOST_PORT, contextPath);
     }
 
-    private String postRequest(SoapClient client, String request) {
+    private String postRequest(SoapClient client, String request) throws ConnectTimeoutException, IOException, TransmissionException {
         return client.post(request);
     }
 
-    private String postRequest(SoapClient client, String request, String soapAction) {
+    private String postRequest(SoapClient client, String request, String soapAction) throws ConnectTimeoutException, IOException, TransmissionException {
         return client.post(soapAction, request);
     }
 

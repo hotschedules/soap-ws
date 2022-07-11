@@ -18,17 +18,21 @@
  */
 package org.reficio.ws.quickstart;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.reficio.ws.SoapContext;
 import org.reficio.ws.builder.SoapBuilder;
 import org.reficio.ws.builder.SoapOperation;
+import org.reficio.ws.client.TransmissionException;
 import org.reficio.ws.client.core.SoapClient;
 import org.reficio.ws.server.core.SoapServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.IOException;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -60,7 +64,7 @@ public class SpringExampleTest {
     }
 
     @Test
-    public void testRequestResponse() {
+    public void testRequestResponse() throws ConnectTimeoutException, IOException, TransmissionException {
         SoapOperation operation = builder.operation().name("ConversionRate").find();
         SoapContext context = SoapContext.builder().exampleContent(true).build();
         String request = builder.buildInputMessage(operation, context);
